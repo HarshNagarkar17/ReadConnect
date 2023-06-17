@@ -38,16 +38,16 @@ const saveToken = async (token, user, type, expires, blacklisted = false) => {
 }
 /**
  * generates auth tokens
- * @param {Object} user
+ * @param {String} id
  * @returns {Object} 
  */
-const generateAuthTokens = async (user) => {
+const generateAuthTokens = async (id) => {
     const accessTokenExpires = moment().add(10, 'minutes').format('YYYY-MM-DDTHH:mm:ss');
-    const accessToken = createToken(user.id, accessTokenExpires);
+    const accessToken = createToken(id, accessTokenExpires);
 
     const refreshTokenExpires = moment().add(2, 'days').format('YYYY-MM-DD HH:mm:ss');
-    const refreshToken = createToken(user.id, refreshTokenExpires);
-    await saveToken(refreshToken, user.id, tokenTypes.REFRESH, refreshTokenExpires);
+    const refreshToken = createToken(id, refreshTokenExpires);
+    await saveToken(refreshToken, id, tokenTypes.REFRESH, refreshTokenExpires);
 
     return {
         access: {

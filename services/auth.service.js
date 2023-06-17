@@ -5,11 +5,20 @@ const {getUserbyEmail} = require('./user.services')
 const {getUserbyId} = require('./user.services');
 const { updateUserAfterVerify } = require("./user.services");
 
+
+const isUserAdmin = async(email, password) => {
+    if(email === process.env.ADMIN_ID && password === process.env.ADMIN_PASSWORD)
+        return true;
+    return false;
+}
+
 const loginWithEmailandPassword = async(email, password) => {
     const user = await getUserbyEmail(email);
     if(!user || !(await user.isPasswordMatch(password))) {
         throw new Error("Incorrect email or password");
     }
+    if(user.verified === false)
+        throw new Error('user is not verified');
     return user;
 }
 
@@ -29,5 +38,5 @@ const verifyEmail = async(token) => {
 module.exports = {
     loginWithEmailandPassword,
     verifyEmail,
-    isUserAlreadyVerified
+    isUserAdmin
 }
