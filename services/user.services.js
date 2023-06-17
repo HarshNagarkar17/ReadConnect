@@ -19,6 +19,13 @@ const updateUserAfterVerify = async(user) => {
     await User.findOneAndUpdate({_id:user.id}, {verified:true});
 }
 
+const isUserAdmin = async (id) => {
+    const user = await getUserbyId(id);
+    if (!user.isAdmin)
+      throw new Error("User is not an admin");
+    return true;
+  }
+
 const getUserbyEmail = (email) => {
     return User.findOne({email});
 }
@@ -27,4 +34,4 @@ const getUserbyId = (_id) => {
     return User.findById({_id});
 }
 module.exports = {getUserbyEmail, createUser, getUserbyId,
-    updateUserAfterVerify, createAdmin};
+    updateUserAfterVerify, createAdmin, isUserAdmin};

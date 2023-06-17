@@ -11,6 +11,7 @@ server.use(express.urlencoded({ extended: true}));
 
 server.use('/auth', require('./routers/auth.route'));
 server.use('/', require('./routers/user.router'));
+server.use('/book', require('./routers/book.route'));
 
 const connection = async()=>{
     try {
