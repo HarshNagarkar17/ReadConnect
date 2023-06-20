@@ -2,6 +2,7 @@ const { userService, bookService } = require('../services')
 const httpStatus = require('http-status');
 const _ = require('lodash');
 const { Book } = require('../models');
+const asyncWrapper = require('../utils/async');
 
 /**
  * add a book
@@ -12,17 +13,14 @@ const { Book } = require('../models');
  * @param {String} genre
  * @returns {Object}
  */
-exports.addBook = async (req, res, next) => {
-    try {
-        const { title, description, coverPage, userId, genre } = _.pick(req.body, ['title', 'description', 'coverPage', 'userId', 'genre'])
-            await bookService.isCoveranImage(coverPage);
-            await userService.isUserAdmin(userId);
-            const book = await bookService.saveBook(title, description, coverPage, genre);
-            return res.status(httpStatus.OK).json({ book });
-    } catch (error) {
-        next(error);
-    }
-}
+exports.addBook = asyncWrapper(async (req, res, next) => {
+    const { title, description, coverPage, userId, genre } = _.pick(req.body, ['title', 'description', 'coverPage', 'userId', 'genre'])
+    await bookService.isCoveranImage(coverPage);
+    await userService.isUserAdmin(userId);
+    const book = await bookService.saveBook(title, description, coverPage, genre);
+    return res.status(httpStatus.OK).json({ book });
+
+})
 
 /**
  * search books from title and genre
@@ -30,26 +28,22 @@ exports.addBook = async (req, res, next) => {
  * @param {String} genre
  * @returns {Object}
  */
-exports.searchBook = async(req, res) => {
-    try {
-        const {title, genre} = req.query;
+exports.searchBook =asyncWrapper(async(req, res) => {
+    
+        const { title, genre } = req.query;
         // find books function
         const books = await bookService.findBook(title, genre);
         const { booksFromTitle, booksFromGenre } = books;
-        if(booksFromGenre.length > booksFromTitle.length)   // one with high length, display first
-            return res.status(httpStatus.OK).json({booksFromGenre, booksFromTitle});
-        return res.status(httpStatus.OK).json({booksFromTitle, booksFromGenre})
-    } catch (error) {
-        next(error);
-    }
-}
+        if (booksFromGenre.length > booksFromTitle.length)   // one with high length, display first
+            return res.status(httpStatus.OK).json({ booksFromGenre, booksFromTitle });
+        return res.status(httpStatus.OK).json({ booksFromTitle, booksFromGenre })
+   
+})
 
 
-exports.getAll = async(req, res) => {
-    try {
+exports.getAll =asyncWrapper(async (req, res) => {
+  
         const books = await Book.find({});
-        res.status(httpStatus.OK).json({books});
-    } catch (error) {
-        next(error);
-    }
-}
+        res.status(httpStatus.OK).json({ books });
+   
+});
