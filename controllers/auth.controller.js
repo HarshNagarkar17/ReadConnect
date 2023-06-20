@@ -3,29 +3,39 @@ const { authService, userService, tokenService, emailService } = require('../ser
 const httpstatus = require('http-status');
 
 exports.register = async (req, res) => {
-    const { username, email, password } = req.body;
-    console.log(req.headersDistinct);
-    const user = await userService.createUser(username, email, password);
-    return res.status(httpstatus.OK).json({ user });
+    try {
+        const { username, email, password } = req.body;
+        console.log(req.headersDistinct);
+        const user = await userService.createUser(username, email, password);
+        return res.status(httpstatus.OK).json({ user });
+        
+    } catch (error) {
+        return res.status(httpstatus.BAD_REQUEST).json({error:error.message})
+    }
 }
 
 exports.registerAdmin = async (req, res) => {
-    const { username, email, password } = req.body;
-    const admin = await userService.createAdmin(username, email, password);
-    return res.status(httpstatus.OK).json({ admin });
+    const { email, password } = req.body;
+    try {
+        const admin = await userService.createAdmin(email, password);
+        return res.status(httpstatus.OK).json({ admin });
+    } catch (error) {
+        return res.status(httpstatus.BAD_REQUEST).json({error:error.message})
+    }
 }
 
 exports.login = async (req, res) => {
     const { email, password } = req.body;
-    // if (await authService.isUserAdmin(email, password)) {
-    //     const admin = await userService.getUserbyEmail(email);
-    // }
-    var admin = false;
-    const user = await authService.loginWithEmailandPassword(email, password);
-    const token = await tokenService.generateAuthTokens(user.id);
-    if(user.isAdmin === true)
-        admin = true
-    return res.status(httpstatus.OK).json({ user, admin, token });
+    try {
+        var admin = false;
+        const user = await authService.loginWithEmailandPassword(email, password);
+        const token = await tokenService.generateAuthTokens(user.id);
+        if(user.isAdmin === true)
+            admin = true
+        return res.status(httpstatus.OK).json({ user, admin, token });
+    } catch (error) {
+        return res.status(httpstatus.BAD_REQUEST).json({error:error.message})
+    }
 }
 
 
@@ -45,4 +55,3 @@ exports.viewUsers = async (req, res) => {
     const users = await User.find({});
     return res.json({ users });
 }
-

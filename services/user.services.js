@@ -7,10 +7,10 @@ const createUser = async(username, email, password) => {
     return User.create({username, email, password});
 }
 
-const createAdmin = async(username, email, password) => {
+const createAdmin = async(email, password) => {
     if(await User.isEmailTaken(email))
         throw new Error("Email already in use");
-    return User.create({username, email, password, isAdmin:true, verified:true});
+    return User.create({email, password, isAdmin:true, verified:true});
 }
 
 const updateUserAfterVerify = async(user) => {

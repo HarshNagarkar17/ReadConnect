@@ -1,16 +1,12 @@
-const tokenTypes = {
-    ACCESS: 'access',
-    REFRESH: 'refresh',
-    RESET_PASSWORD: 'resetPassword',
-    VERIFY_EMAIL: 'verifyEmail'
-};
-
 const bookGenre = {
     BUSINESS: '1',
     INVESTING: '2',
-    uppergenre(genre){
-        return genre.toUpperCase();
-    }
+    RISK: '3',
+    PHILOSOPHY: '4',
+    SCA: '12',
+    SCIENCE :'5',
+    SCIENCEAND: '9',
+    ENGINEERING: '6',
 }
 
-module.exports = {tokenTypes, bookGenre};
+module.exports = {bookGenre};

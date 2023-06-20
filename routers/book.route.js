@@ -1,5 +1,5 @@
 // const multer = require('multer');
-const { addBook } = require('../controllers/book.controller');
+const { addBook, searchBook, getAll } = require('../controllers/book.controller');
 
 const router = require('express').Router();
 
@@ -15,6 +15,7 @@ const router = require('express').Router();
 // const upload = multer.upload({storage});
 
 router.post('/add-book', addBook);
-
+router.get('/search-book', searchBook);
+router.get('/books', getAll);
 
 module.exports = router;
