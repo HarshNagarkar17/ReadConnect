@@ -9,11 +9,12 @@ const { tokenTypes } = require('../config/tokens');
  * @param {Moment} expiresIn
  * @returns {string}
  */
-const createToken = (userId, expiresIn, secret = process.env.SECRET) => {
+const createToken = (userId, expiresIn,type, secret = process.env.SECRET) => {
     const payload = {
         sub: userId,
         iat: moment().unix(),
-        expiresIn
+        expiresIn,
+        type
     }
 
     return jwt.sign(payload, secret);
@@ -42,11 +43,11 @@ const saveToken = async (token, user, type, expires, blacklisted = false) => {
  * @returns {Object} 
  */
 const generateAuthTokens = async (id) => {
-    const accessTokenExpires = moment().add(10, 'minutes').format('YYYY-MM-DDTHH:mm:ss');
-    const accessToken = createToken(id, accessTokenExpires);
+    const accessTokenExpires = moment().add(30, 'minutes').format('YYYY-MM-DDTHH:mm:ss');
+    const accessToken = createToken(id, accessTokenExpires, tokenTypes.ACCESS);
 
     const refreshTokenExpires = moment().add(2, 'days').format('YYYY-MM-DD HH:mm:ss');
-    const refreshToken = createToken(id, refreshTokenExpires);
+    const refreshToken = createToken(id, refreshTokenExpires, tokenTypes.REFRESH);
     await saveToken(refreshToken, id, tokenTypes.REFRESH, refreshTokenExpires);
 
     return {

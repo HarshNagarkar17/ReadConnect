@@ -31,6 +31,10 @@ const userSchema = mongoose.Schema({
             }
         }
     },
+    reviews:[{
+        type:mongoose.Schema.Types.ObjectId,
+    }
+    ],
     isAdmin:{
         type:Boolean,
         default:false
