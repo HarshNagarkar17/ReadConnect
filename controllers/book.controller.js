@@ -12,15 +12,15 @@ const { Book } = require('../models');
  * @param {String} genre
  * @returns {Object}
  */
-exports.addBook = async (req, res) => {
-    const { title, description, coverPage, userId, genre } = _.pick(req.body, ['title', 'description', 'coverPage', 'userId', 'genre'])
+exports.addBook = async (req, res, next) => {
     try {
-        await bookService.isCoveranImage(coverPage);
-        await userService.isUserAdmin(userId);
-        const book = await bookService.saveBook(title, description, coverPage, genre);
-        return res.status(httpStatus.OK).json({ book });
+        const { title, description, coverPage, userId, genre } = _.pick(req.body, ['title', 'description', 'coverPage', 'userId', 'genre'])
+            await bookService.isCoveranImage(coverPage);
+            await userService.isUserAdmin(userId);
+            const book = await bookService.saveBook(title, description, coverPage, genre);
+            return res.status(httpStatus.OK).json({ book });
     } catch (error) {
-        return res.status(httpStatus.BAD_REQUEST).json({error:error.message});
+        next(error);
     }
 }
 
@@ -40,7 +40,7 @@ exports.searchBook = async(req, res) => {
             return res.status(httpStatus.OK).json({booksFromGenre, booksFromTitle});
         return res.status(httpStatus.OK).json({booksFromTitle, booksFromGenre})
     } catch (error) {
-        res.status(httpStatus.BAD_REQUEST).json({err:error.message});
+        next(error);
     }
 }
 
@@ -50,6 +50,6 @@ exports.getAll = async(req, res) => {
         const books = await Book.find({});
         res.status(httpStatus.OK).json({books});
     } catch (error) {
-        res.status(httpStatus.BAD_REQUEST).json({error:error.message});
+        next(error);
     }
 }

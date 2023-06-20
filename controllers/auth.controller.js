@@ -2,15 +2,14 @@ const User = require('../models/user.model');
 const { authService, userService, tokenService, emailService } = require('../services');
 const httpstatus = require('http-status');
 
-exports.register = async (req, res) => {
+exports.register = async (req, res, next) => {
     try {
         const { username, email, password } = req.body;
         console.log(req.headersDistinct);
         const user = await userService.createUser(username, email, password);
         return res.status(httpstatus.OK).json({ user });
-        
     } catch (error) {
-        return res.status(httpstatus.BAD_REQUEST).json({error:error.message})
+        next(error);
     }
 }
 

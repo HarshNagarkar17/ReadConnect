@@ -5,7 +5,7 @@ const server = express();
 const cors = require('cors');
 const passport = require('passport');
 const { jwtStratergy } = require('./config/passport');
-
+const {errorHandler} = require('./middlewares/errorHandler')
 
 server.use(cors());
 server.use(express.json());
@@ -17,6 +17,9 @@ passport.use('jwt', jwtStratergy);
 server.use('/auth', require('./routers/auth.route'));
 server.use('/', require('./routers/user.router'));
 server.use('/book', require('./routers/book.route'));
+
+
+server.use(errorHandler);
 
 const connection = async()=>{
     try {
