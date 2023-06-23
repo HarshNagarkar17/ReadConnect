@@ -1,12 +1,14 @@
 const httpStatus = require('http-status');
 const {User} = require('../models');
 const ApiError = require('../utils/error');
+const { convertGenreToNumber } = require('./book.service'); 
 
 
-const createUser = async(username, email, password) => {
+const createUser = async(username, email, password, genres) => {
     if(await User.isEmailTaken(email))
         throw new ApiError(httpStatus.BAD_REQUEST, "User already exist");
-    return User.create({username, email, password});
+    const normalizedGenre = convertGenreToNumber(genres);
+    return User.create({username, email, password, genresLikedByUser: normalizedGenre});
 }
 
 const createAdmin = async(email, password) => {

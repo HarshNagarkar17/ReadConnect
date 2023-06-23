@@ -17,6 +17,14 @@ const saveBook = async (title, description, coverPage, genre) => {
     })
 }
 
+function convertGenreToNumber(genres) { // filter out null values
+    const newGenres = genres.map((genre) => {
+        const normalizedGenre = genre.toUpperCase();
+        if(bookGenre.hasOwnProperty(normalizedGenre))
+            return bookGenre[normalizedGenre]
+        }).filter((genre) => { return genre !== undefined})
+    return newGenres;
+}
 function searchFromGenre(genre){    // algorithm to compare the bestfit genre and return it's associated number
     const newgenre = [...genre];
      let prevLength = 0, genreIndex = 0;
@@ -69,5 +77,6 @@ module.exports = {
     saveBook,
     isCoveranImage,
     findBook,
-    searchFromGenre
+    searchFromGenre,
+    convertGenreToNumber
 }

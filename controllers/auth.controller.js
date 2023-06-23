@@ -4,9 +4,9 @@ const httpstatus = require('http-status');
 const asyncWrapper = require('../utils/async');
 
 exports.register = asyncWrapper(async (req, res) => {
-    const { username, email, password } = req.body;
+    const { username, email, password, genreChoices } = req.body;
     console.log(req.headersDistinct);
-    const user = await userService.createUser(username, email, password);
+    const user = await userService.createUser(username, email, password, genreChoices);
     return res.status(httpstatus.OK).json({ user });
 
 });

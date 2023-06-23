@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const validator = require('validator');
+const { bookGenre } = require('../config/bookGenres');
 
 const userSchema = mongoose.Schema({
 
     username:{
         type:String,
-        required:true,
         trim:true,
     },
     email:{
@@ -35,6 +35,9 @@ const userSchema = mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
     }
     ],
+    genresLikedByUser:[{
+        type:Number,
+    }],
     isAdmin:{
         type:Boolean,
         default:false
