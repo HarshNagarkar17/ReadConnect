@@ -11,8 +11,9 @@ Welcome to ReadConnect! This website allows users to explore and search for new 
 
 ## Technologies Used
 
-- Node.js
-- Express.js
+- Node.js (backend)
+- React.js (frontend)
+- Express.js (server creation)
 -JWT (JSON WEB TOKEN)
 
 ## Installation
