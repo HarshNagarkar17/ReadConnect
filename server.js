@@ -18,7 +18,6 @@ server.use('/auth', require('./routers/auth.route'));
 server.use('/', require('./routers/user.router'));
 server.use('/book', require('./routers/book.route'));
 
-
 server.use(errorHandler);
 
 const connection = async()=>{

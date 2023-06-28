@@ -69,7 +69,7 @@ const generateAuthTokens = async (id) => {
  */
 const generateEmailToken = async (user) => {
     const emailTokenExpires = moment().add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss');
-    const emailToken = createToken(user.id, emailTokenExpires);
+    const emailToken = createToken(user.id, emailTokenExpires, tokenTypes.VERIFY_EMAIL);
     await saveToken(emailToken, user.id, tokenTypes.VERIFY_EMAIL, emailTokenExpires);
     return emailToken;
 }

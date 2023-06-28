@@ -1,4 +1,4 @@
-const { register, login, verifyEmail, sendVerificationEmail, registerAdmin } = require("../controllers/auth.controller");
+const { register, login, verifyEmail, sendVerificationEmail, registerAdmin, getUser } = require("../controllers/auth.controller");
 const express = require('express');
 const router = express.Router();
 const authenticate = require("../middlewares/auth");
@@ -11,6 +11,7 @@ router.get('/secure',authenticate,async(req, res) => {
     res.json({user});
 });
 
+router.post('/get-profile', getUser);
 router.get('/verify-email', verifyEmail);
 router.post('/register-admin', registerAdmin);
 
