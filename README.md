@@ -41,12 +41,23 @@ EMAIL_PASSWORD = 'your_email_token'
 EMAIL_ID = 'your_email_id'
 ```
 
-4.Start the server
+4.Start node server
 
 ```bash
 npm run dev
 ```
 
+4. goto client/
+
+```bash
+npx create-react-app .
+```
+
+5. Start react server
+
+```bash
+npm start
+```
 ## Contributing
 
 Contributions to this project are welcome! If you find any issues or would like to add new features, please submit a pull request.
