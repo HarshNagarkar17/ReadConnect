@@ -24,13 +24,13 @@ Welcome to ReadConnect! This website allows users to explore and search for new 
 git clone https://github.com/HarshNagarkar17/ReadConnect.git
 ```
 
-2.Install the dependencies:
+2. Install the dependencies:
 
 ```bash
 npm install
 ```
 
-3.Set up environment variables:
+3. Set up environment variables:
 
 - Create a ***.env*** file in the root directory of the project.
 - Add the following environment variables to the ***.env*** file:
@@ -41,7 +41,7 @@ EMAIL_PASSWORD = 'your_email_token'
 EMAIL_ID = 'your_email_id'
 ```
 
-4.Start node server
+4. Start node server
 
 ```bash
 npm run dev
